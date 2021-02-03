@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>数据统计</title>
+    <link rel="stylesheet" href="../../lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <script src="../../js/echarts.js"></script>
+</head>
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>成员统计</legend>
+            </fieldset>
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <div class="layui-form" style="margin: 10px 10px 10px 10px">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">院系</label>
+                                    <div class="layui-input-inline">
+                                        <label>
+                                            <select name="院系" lay-filter="college">
+                                                <option value=""></option>
+                                                <option value="计算机科学与技术学院">计算机科学与技术学院</option>
+                                                <option value="经济管理学院">经济管理学院</option>
+                                                <option value="艺术学院">艺术学院</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">专业</label>
+                                    <div class="layui-input-inline" >
+                                        <label for="major"></label>
+                                        <select name="专业" id="major" >
+                                            <option value=""></option>
+                                            <option value="计算机科学与技术">计算机科学与技术</option>
+                                            <option value="物联网工程">物联网工程</option>
+                                            <option value="智能科学与技术">智能科学与技术</option>
+                                            <option value="软件工程">软件工程</option>
+                                            <option value="网络工程">网络工程</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">年级</label>
+                                    <div class="layui-input-inline" >
+                                        <input type="text" name="年级" id="grade" autocomplete="off" placeholder="请选择" class="layui-input" readonly>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">状态</label>
+                                    <div class="layui-input-inline" >
+                                            <select  name="状态">
+                                                <option value="" selected="selected"></option>
+                                                <option value="正常">正常</option>
+                                                <option value="退出">退出</option>
+                                                <option value="毕业">毕业</option>
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="data-search-btn1"><i class="layui-icon layui-icon-search"></i> 搜 索</button>
+                                    <button type="reset" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-refresh"></i> 重 置</button>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <div class="layui-card-body">
+                        <!--图表一和图表二-->
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-md6">
+                                <div class="layui-card" style="border-radius: 20px; border: 2px solid buttonface; box-shadow: 0px 0px 10px 3px gainsboro;">
+                                    <div class="layui-card-header" style="font-weight: bold; font-size: 18px;"><i class="fa fa-pie-chart icon"></i>    成员状态情况统计</div>
+                                    <div class="layui-card-body">
+                                        <div id="main1" style="width: 100%; height: 400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-md6">
+                                <div class="layui-card" style="box-shadow: 0px 0px 10px 3px gainsboro; border-radius: 20px;">
+                                    <div class="layui-card-header" style="font-weight: bold; font-size: 18px;"><i class="fa fa-line-chart icon"></i>    专业情况统计</div>
+                                    <div class="layui-card-body">
+                                        <div id="main" style="width: 100%; height: 400px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend></legend>
+            </fieldset>
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <div class="layui-form" style="margin: 10px 10px 10px 10px">
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="layui-form-item">
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">院系</label>
+                                    <div class="layui-input-inline">
+                                        <label>
+                                            <select name="院系" lay-filter="college">
+                                                <option value=""></option>
+                                                <option value="计算机科学与技术学院">计算机科学与技术学院</option>
+                                                <option value="经济管理学院">经济管理学院</option>
+                                                <option value="艺术学院">艺术学院</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">时间段</label>
+                                    <div class="layui-input-inline">
+                                        <label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="时间段" id="date" autocomplete="off" class="layui-input" readonly>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="layui-inline">
+                                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="data-search-btn1"><i class="layui-icon layui-icon-search"></i> 搜 索</button>
+                                    <button type="reset" class="layui-btn layui-btn-normal"><i class="layui-icon layui-icon-refresh"></i> 重 置</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="padding:20px;">
+                <!--图表三-->
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12 ">
+                        <div class="layui-card" style="box-shadow: 0px 0px 10px 3px gainsboro; border-radius: 20px;">
+                            <div class="layui-card-header" style="font-weight: bold; font-size: 18px;"><i class="fa fa-bar-chart-o icon"></i>    各院系人数统计</div>
+                            <div class="layui-card-body">
+                                <div id="main2" style="width: 100%; height: 600px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="../../lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+
+    <script>
+        //JavaScript代码区域
+        layui.use(['element','form', 'layer', 'laydate'], function(){
+            var element = layui.element;
+            // 定义全局变量
+            var $;
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer,
+                laydate = layui.laydate;
+
+            //年选择器(最多考虑留两级的人)
+            laydate.render({
+                elem: '#grade'
+                ,max: 0
+                ,theme: '#393D49'
+                ,type: 'year',
+                trigger:'click',
+            });
+
+            //日期范围
+            laydate.render({
+                elem: '#date'
+                ,max:0
+                ,theme: '#393D49'
+                ,range: true,
+                trigger:'click',
+            });
+
+            form.render();
+
+            // 监听搜索_1操作
+            form.on('submit(data-search-btn1)', function(data) {
+                var result = JSON.stringify(data.field);
+                layer.alert(result, {
+                    title: '最终的搜索信息'
+                });
+
+                return false;
+            });
+            // 监听搜索_2操作
+            form.on('submit(data-search-btn2)', function(data) {
+                var result = JSON.stringify(data.field);
+                layer.alert(result, {
+                    title: '最终的搜索信息'
+                });
+
+                return false;
+            })
+
+            })
+    </script>
+
+
+    <script>
+
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            xAxis: {
+                type: 'category',
+                data: ['软件工程', '物联网工程', '智能科学', '网络工程']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [90, 110, 95,85],
+                type: 'line'
+            }]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+
+
+
+    <script>
+
+        var chartDom = document.getElementById('main1');
+        var myChart2 = echarts.init(chartDom);
+        var option2;
+
+        option2 = {
+            title: {
+                text: '成员状态情况统计',
+                subtext: '',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+            },
+            series: [
+                {
+                    name: '专业',
+                    type: 'pie',
+                    radius: '50%',
+                    data: [
+                        {value: 1200, name: '正常'},
+                        {value: 1000, name: '毕业'},
+                        {value: 200, name: '退出'},
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+        option2 && myChart2.setOption(option2);
+
+    </script>
+
+
+
+    <script type="text/javascript">
+        var chartDom = document.getElementById('main2');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    crossStyle: {
+                        color: '#999'
+                    }
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            legend: {
+                data: ['', '', '']
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['2017年', '2018年', '2019年', '2020年', '2021年'],
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name: '人数',
+                    min: 0,
+                    max: 600,
+                    interval: 50,
+                    axisLabel: {
+                        formatter: '{value} 人'
+                    }
+                },
+                /*{
+                    type: 'value',
+                    name: '平均收入',
+                    min: 0,
+                    max: 8000,
+                    interval: 1000,
+                    axisLabel: {
+                        formatter: '{value} 元'
+                    }
+                }*/
+            ],
+            series: [
+                {
+                    name: '计算机科学与技术',
+                    type: 'bar',
+                    data: [325, 330, 300, 330, 320]
+                },
+                {
+                    name: '经济管理学院',
+                    type: 'bar',
+                    data: [300, 325, 340, 300, 330]
+                },{
+                    name: '自动化',
+                    type: 'bar',
+                    data: [280, 300, 320, 320, 300]
+                },
+                /*{
+                    name: '平均收入',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    data: [5000, 5500, 5300, 6000,5600 ]
+                }*/
+            ]
+        };
+
+        option && myChart.setOption(option);
+
+    </script>
+
+
+
+</body>
+
+</html>
